@@ -11,7 +11,7 @@
     foreach ($users as $index => $user) {
     ?>
         <tr>
-            <td><?= $index ?></td>
+            <td><?= $index + 1 ?></td>
             <td><?= $user['name'] ?></td>
             <td><?= $user['email'] ?></td>
             <td class="my-table-icons"> <img src="/img/icons/pencil.png" alt=""> </td>
