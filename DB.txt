@@ -1,0 +1,127 @@
+//создание таблицы:
+
+CREATE TABLE `users` ( 
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT , 
+    `name` VARCHAR(32) NOT NULL , 
+    `gender` ENUM('male','female') NOT NULL DEFAULT 'male' , 
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , 
+    `child` BOOLEAN NULL , 
+    PRIMARY KEY (`id`)
+    ) 
+    ENGINE = InnoDB;
+
+//удаление таблицы:
+
+DROP TABLE users
+
+//Добавление строк в таблицу
+
+    method 1:
+        INSERT INTO users VALUES(1, 'Bob','male', '2022-08-23 19:00:20', true)
+    method 2:
+        INSERT INTO users (name, child) VALUES('John', false) //choose columns to fill and indicate values for this columns
+    multiple adding:
+        INSERT INTO users (name, child) VALUES('Pete', false), ('Mark', true)
+
+//Deleting rows
+
+DELETE FROM users; //delete all data from table
+
+DELETE FROM users WHERE id=1; //delete user with id=1
+
+====
+Comparison operators:
+= >= <= > < !=
+
+====
+Проверка на равенство NULL: 
+    имя_столбца IS NULL
+
+Проверка на не равенство NULL: 
+    имя_столбца IS NOT NULL
+
+DELETE FROM users WHERE child IS NULL; //удалили всех пользователей без детей
+
+=====
+Логические операторы:
+
+AND, OR
+
+DELETE FROM users WHERE name='Bob' or name='Mark' or name='Liza'
+
+=====
+Чтобы не писаь несколько "или" можно сдалать проверку на принадлежность множеству (IN):
+
+DELETE FROM users WHERE name IN ('Bob', 'Mark', 'Liza');
+
+=====
+Проверка на принадлежность диапазону (BETWEEN):
+
+DELETE FROM users WHERE year>=2000 AND year<=2010;
+    ИЛИ:
+DELETE FROM users WHERE year BETWEEN (2000,2010);
+
+====
+Обновление строк:
+
+UPDATE users SET name='Masha', gender='female' WHERE id=2
+
+====
+Выборка данных:
+
+SELECT * FROM users WHERE id=3; //получить все данные по пользователю с ид=3
+SELECT id, name FROM users WHERE id=3; //получить id, name по пользователю с ид=3
+
+====
+Псевдонимы столбцов (AS):
+SELECT name AS 'title', pressrun AS 'quantity' FROM books WHERE id=1
+
+====
+Сортировка таблицы:
+
+SELECT name, price FROM books ORDER BY price //по умолчанию сортирует от меньшего к большему (ASC - этот параметр по умолчанию, поэтому его можно не писать)
+
+SELECT name, price FROM books ORDER BY price DESC //сортировка от большего к меньшему
+
+
+SELECT TRIM(name), price FROM books ORDER BY TRIM(name) //TRIM - функция которая обрезает пробелы
+
+SELECT TRIM(name) AS name, price FROM books ORDER BY TRIM(name) //в php запросе надо переименовывать столбец, чтобы возвращаемые данные не воспринимались как функция с параметром
+
+SELECT TRIM(name), price FROM books ORDER BY 1 /можно указывать номер столбца. т.е. тут мы сортируем по первому указанному столбцу - name. это позволяет два раза не писать TRIM(name)
+
+Двойная сортировка:
+
+SELECT name, themes, category FROM books ORDER BY themes, category // сортируется сначала по теме, а потом по категории внутри
+
+====
+Удаление повторяющихся строк (DISTINCT):
+-----------------------------------------
+
+SELECT DISTINCT themes FROM books ORDER BY 1
+
+SELECT DISTINCT themes, category FROM books ORDER BY 1 //если выбирается два столбца, то остаются уникальные пары
+
+====
+Поиск по неполным данным (LIKE):
+---------------------------------
+WHERE имя_столбца LIKE 'шаблон'
+
+% - 0 и более любых символов;
+_ - 1 любой символ;
+
+SELECT name, price FROM books WHERE name LIKE '%html%' //находим книги в названиях которых есть "html". запрос в кавычках регистронезависимый.
+
+SELECT name, price FROM books WHERE name LIKE '%html%' AND price<20 //с доп. условиями
+
+SELECT name, price FROM books WHERE name LIKE '%html%' AND price<20 ORDER BY price //+сортировка по цене 
+
+SELECT name, price FROM books WHERE name NOT LIKE '%html%' // выбираем книги в которых нет слова 'html'
+
+====
+Поиск по неполным данным с регулярным выражением (RLIKE):
+---------------------------------
+
+SELECT name, price FROM books WHERE name RLIKE '[0-9]{4}' //4 цифры от 0 до 9
+
+SELECT name, price FROM books WHERE name NOT RLIKE '[0-9]{4}' //не 4 цифры от 0 до 9
