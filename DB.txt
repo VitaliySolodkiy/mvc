@@ -139,7 +139,7 @@ SELECT min(price) FROM books
 
 SELECT min(price) FROM books WHERE new=1 // минимальная стоимость с доп. параметром поиска (книги новинки)
 
-COUNT (*) - возвращает количество всех строк таблицы
+COUNT (*) - возвращает количество всех строк таблицы (вычисляет количество строк в запросе)
 COUNT (название столбца) - подсчитает кол-во строк содержащих не NULL значение
 
 SELECT COUNT(*) AS total, COUNT(dateizd) as izd, AVG(price) as avg FROM books
