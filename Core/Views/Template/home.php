@@ -1,10 +1,12 @@
 <h1 class="text-center"><?= $title ?></h1>
-<h2 class="text-center">Articles</h2>
+<h2 class="text-center">Books</h2>
+
+<a href="/book-create" class="btn btn-primary mb-3">Create book</a>
 
 <?php
-foreach ($articles as $article) : ?>
-    <article class="" m-4>
-        <h3> <?= $article['title'] ?></h3>
-        <div><?= $article['content'] ?></div>
-    </article>
+
+foreach ($books as $book) : ?>
+    <ul>
+        <li> <?= $book->Name ?>, (<?= $book->Price ?> UAH)</li>
+    </ul>
 <?php endforeach ?>

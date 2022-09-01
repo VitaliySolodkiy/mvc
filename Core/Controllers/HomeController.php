@@ -4,25 +4,23 @@ namespace Core\Controllers;
 
 use Core\Views\View;
 use Core\Helpers\Message;
+use Core\Models\Author;
+use Core\Services\Db;
+use Core\Models\Book;
+
 
 class HomeController extends Controller
 {
     public function index()
     {
         $title = 'Home';
-        $articles = [
-            [
-                'id' => 1,
-                'title' => 'Article 1',
-                'content' => 'Content for Article 1',
-            ],
-            [
-                'id' => 2,
-                'title' => 'Article 2',
-                'content' => 'Content for Article 2',
-            ],
-        ];
-        View::render('home', compact('title', 'articles'));
+        $books = Book::all();
+
+        // self::dump(Author::all());
+
+        // self::dump(Book::find(1));
+
+        View::render('home', compact('title', 'books'));
     }
     public function contacts()
     {
