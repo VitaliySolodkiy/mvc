@@ -28,6 +28,9 @@
                         <a class="nav-link" href="/users">Users</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/authors">Authors</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/signup">Sign Up</a>
                     </li>
                     <li class="nav-item">
