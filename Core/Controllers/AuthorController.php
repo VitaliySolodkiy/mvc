@@ -31,18 +31,4 @@ class AuthorController extends Controller
 
         self::redirect('/authors');
     }
-
-    /*     public function store()
-    {
-        $name = $_POST['name'];
-        $price = $_POST['price'];
-
-        $book = new Book();
-        $book->Name = $name;
-        $book->Price = $price;
-
-        $book->save(); //сохраняет в БД
-
-        self::redirect('/');
-    } */
 }

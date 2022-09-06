@@ -12,7 +12,7 @@ class Route
             die('Page not found');
         }
         list($nameController, $nameMethod) = $routes[$url]; //'HomeController', 'index'
-        $classController = 'Core\\Controllers\\' . $nameController;
+        $classController = 'Core\\Controllers\\' . $nameController; // зачем здесь два слэша в адресе?
         if (!file_exists(($classController . '.php'))) {
             die("Controller $classController not found");
         }

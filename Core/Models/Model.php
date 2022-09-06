@@ -11,6 +11,7 @@ abstract class Model
         $db = Db::getInstance();
         return $db->query("SELECT * FROM " . static::getTable(), [], static::class); //позднее статическое связывание
     }
+
     static public function find($id)
     {
         $db = Db::getInstance();
@@ -31,13 +32,6 @@ abstract class Model
             $props[] = $name;
             $propsToAdd[$name] = $this->$name;
         }
-
-        // echo '<pre>' . print_r($propsToAdd, true) . '</pre>';
-
-
-        // die();
-
-
 
         $db = Db::getInstance();
         $db->query('INSERT INTO ' . static::getTable() . ' (' . implode(', ', $props) . ') VALUES(:' . implode(', :', $props) . ')', $propsToAdd);
