@@ -3,8 +3,11 @@
 namespace Core\Controllers;
 
 use Core\Exceptions\NotFound;
+use Core\Helpers\XlsxExt;
 use Core\Models\Book;
 use Core\Views\View;
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class BookController extends Controller
 {
@@ -60,5 +63,43 @@ class BookController extends Controller
         if (!$book) {
             throw new NotFound();
         }
+    }
+
+    public function download()
+    {
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML('<h1 style="color:red">Books</h1>');
+        $books = Book::all();
+        $mpdf->WriteHTML('<ol>');
+        foreach ($books as $book) {
+
+            $mpdf->WriteHTML("{$book->Name}, {$book->Price}");
+        }
+        $mpdf->WriteHTML('</ol>');
+
+        $mpdf->Output('file.pdf', 'D');
+    }
+    public function excel()
+    {
+        $books = Book::all();
+        $booksToExcel = [];
+
+        foreach ($books as $book) {
+            $booksToExcel[] = [$book->Name, $book->Price];
+        }
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->fromArray($booksToExcel);
+
+        /* foreach ($books as $index => $book) {
+            $index + 1;
+            $sheet->setCellValue("A$index", $book->Name);
+            $sheet->setCellValue("B$index", $book->Price);
+        } */
+
+
+
+        $writer = new XlsxExt($spreadsheet);
+        $writer->download('books');
     }
 }

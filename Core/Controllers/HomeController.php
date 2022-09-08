@@ -9,10 +9,14 @@ use Core\Services\Db;
 use Core\Models\Book;
 
 
+
 class HomeController extends Controller
 {
     public function index()
     {
+
+
+
         $title = 'Home';
         $books = Book::all();
 

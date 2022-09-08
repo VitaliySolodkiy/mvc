@@ -3,8 +3,11 @@
 use Core\Exceptions\NotFound;
 use Core\Views\View;
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 spl_autoload_register(function ($class) {
-    require_once "./$class.php";
+    if (file_exists("./$class.php"))
+        require_once "./$class.php";
 });
 session_start();
 
