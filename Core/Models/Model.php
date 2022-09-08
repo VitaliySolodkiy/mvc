@@ -26,15 +26,28 @@ abstract class Model
 
         $props = [];
         $propsToAdd = [];
+        $propsToUpdate = [];
 
         foreach ($properties as $property) {
             $name = $property->name;
             $props[] = $name;
             $propsToAdd[$name] = $this->$name;
+            $propsToUpdate[] = $name . '=:' . $name;
         }
 
         $db = Db::getInstance();
-        $db->query('INSERT INTO ' . static::getTable() . ' (' . implode(', ', $props) . ') VALUES(:' . implode(', :', $props) . ')', $propsToAdd);
+
+        if (isset($this->ID)) {
+            $db->query('UPDATE ' . static::getTable() . ' SET ' . implode(', ', $propsToUpdate)  . ' WHERE id=:ID', $propsToAdd);
+        } else {
+            $db->query('INSERT INTO ' . static::getTable() . ' (' . implode(', ', $props) . ') VALUES(:' . implode(', :', $props) . ')', $propsToAdd);
+        }
+    }
+
+    public function remove()
+    {
+        $db = Db::getInstance();
+        $db->query('DELETE FROM ' . static::getTable() . ' WHERE id=:id', ['id' => $this->ID]);
     }
 
     abstract static public function getTable(); //говорим что у всех дочерних класов должен быть такой метод. Чтобы это использовать сам родительский класс должен быть абстрактным (т.е. для него нельзя создавать эксземпляры класса)

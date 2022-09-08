@@ -7,6 +7,12 @@
 
 foreach ($books as $book) : ?>
     <ul>
-        <li> <?= $book->Name ?>, (<?= $book->Price ?> UAH)</li>
+        <li> <a href="/book-edit?id=<?= $book->ID ?>"><?= $book->Name ?></a>, (<?= $book->Price ?> UAH) |
+            <a href="/book/<?= $book->ID ?>">Read</a>
+            <form action="/book-delete" method="POST" style="display: inline-block;">
+                <input type="hidden" name="id" value="<?= $book->ID ?>">
+                <button class="btn btn-danger btn-sm">✕</button>
+            </form>
+        </li>
     </ul>
 <?php endforeach ?>

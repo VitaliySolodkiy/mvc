@@ -6,6 +6,10 @@ return [
 
     'book-create' => ['BookController', 'create'],
     'book-store' => ['BookController', 'store'],
+    'book-delete' => ['BookController', 'delete'],
+    'book-edit' => ['BookController', 'edit'],
+    'book-update' => ['BookController', 'update'],
+    'book/(\d+)' => ['BookController', 'show'],
 
     'authors' => ['AuthorController', 'show'],
     'author-create' => ['AuthorController', 'authorCreate'],
@@ -16,4 +20,8 @@ return [
     'sendSignInForm' => ['UserController', 'sendSignInForm'],
     'signup' => ['UserController', 'signup'],
     'sendSignUpForm' => ['UserController', 'sendSignUpForm'],
+
+    //в ключах не сам урл адрес, а регулярное выражение
+    //проверяем соответствует ли урл адрес регулярному выражению
+
 ];
