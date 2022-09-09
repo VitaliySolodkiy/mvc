@@ -6,6 +6,14 @@
 
 foreach ($authors as $author) : ?>
     <ul>
-        <li> <?= "$author->FirstName $author->LastName" ?></li>
+        <li> <?= "$author->FirstName $author->LastName" ?>
+            <a href="/author-edit?id=<?= $author->ID ?>" class="btn btn-outline-primary btn-sm">Edit</a>
+            <form action="/author-delete" method="POST" style="display: inline-block;">
+                <input type="hidden" name="id" value="<?= $author->ID ?>">
+                <button class="btn btn-outline-danger btn-sm">Delite</button>
+            </form>
+            <a href="/author/<?= $author->ID ?>" class="btn btn-outline-success btn-sm">Books</a>
+        </li>
+
     </ul>
 <?php endforeach ?>

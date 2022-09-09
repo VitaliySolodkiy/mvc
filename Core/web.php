@@ -13,9 +13,14 @@ return [
     'books-download' => ['BookController', 'download'],
     'books-excel' => ['BookController', 'excel'],
 
+
     'authors' => ['AuthorController', 'show'],
     'author-create' => ['AuthorController', 'authorCreate'],
     'author-save' => ['AuthorController', 'authorSave'],
+    'author-edit' => ['AuthorController', 'edit'],
+    'author-update' => ['AuthorController', 'update'],
+    'author-delete' => ['AuthorController', 'delete'],
+    'author/(\d+)' => ['AuthorController', 'showBooks'],
 
     'users' => ['UserController', 'users'],
     'signin' => ['UserController', 'signin'],
