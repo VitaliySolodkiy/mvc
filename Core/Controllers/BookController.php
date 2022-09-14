@@ -102,4 +102,13 @@ class BookController extends Controller
         $writer = new XlsxExt($spreadsheet);
         $writer->download('books');
     }
+
+    public function booksUploadPage()
+    {
+        View::render('books/books-upload');
+    }
+
+    public function saveFromFile()
+    {
+    }
 }

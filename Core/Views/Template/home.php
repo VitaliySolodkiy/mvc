@@ -4,6 +4,7 @@
 <a href="/book-create" class="btn btn-primary mb-3">Create book</a>
 <a href="/books-download" class="btn btn-success mb-3">Download books</a>
 <a href="/books-excel" class="btn btn-danger mb-3">Download books to excel</a>
+<a href="/books-upload" class="btn btn-success mb-3">Upload books from excel</a>
 
 <?php
 

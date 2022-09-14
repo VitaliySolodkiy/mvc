@@ -12,6 +12,8 @@ return [
     'book/(\d+)' => ['BookController', 'show'],
     'books-download' => ['BookController', 'download'],
     'books-excel' => ['BookController', 'excel'],
+    'books-upload' => ['BookController', 'booksUploadPage'],
+    'books-save-from-file' => ['BookController', 'saveFromFile'],
 
 
     'authors' => ['AuthorController', 'show'],
