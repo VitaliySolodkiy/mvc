@@ -16,5 +16,5 @@ try {
 } catch (NotFound $error) {
     View::render('errors/404', [], 404);
 } catch (Exception $error) {
-    echo $error->message;
+    echo $error->getMessage();
 }

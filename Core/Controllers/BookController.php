@@ -5,6 +5,8 @@ namespace Core\Controllers;
 use Core\Exceptions\NotFound;
 use Core\Helpers\XlsxExt;
 use Core\Models\Book;
+use Core\Models\Author;
+use Core\Services\Db;
 use Core\Views\View;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -110,5 +112,56 @@ class BookController extends Controller
 
     public function saveFromFile()
     {
+        $file = $_FILES['file']['tmp_name'];
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet = $reader->load($file);
+        $worksheet  = $spreadsheet->getActiveSheet();
+
+        $highestRow = $worksheet->getHighestRow();
+
+        for ($row = 2; $row <= $highestRow; ++$row) {
+            $name = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+            $price = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+            $authorName = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+
+            $firstName = explode(" ", $authorName)[0];
+            $lastName = explode(" ", $authorName)[1];
+
+            $db = Db::getInstance();
+
+            //находим id автора или создаем нового
+            $result = $db->query("SELECT * FROM authors WHERE FirstName='$firstName' AND LastName='$lastName'");
+            if (count($result) > 0) {
+                echo "автор есть <br>";
+                //находим id автора
+                $authorID = $result[0]->ID;
+            } else {
+                echo "автора нет <br>";
+                //создаем автора
+                $author = new Author();
+                $author->FirstName = $firstName;
+                $author->LastName = $lastName;
+                $author->save();
+                //находим id созданного автора
+                $result = $db->query("SELECT * FROM authors WHERE FirstName='$firstName' AND LastName='$lastName'");
+                $authorID = $result[0]->ID;
+            }
+
+            //добавляем книгу или обновляем ее цену, если совпадаем название и id автора
+            $bookResult = $db->query("SELECT * FROM books WHERE Name='$name' AND Id_Author='$authorID'");
+            if (count($bookResult) > 0) {
+                $book = Book::find($bookResult[0]->ID);
+                $book->Price = $price;
+                $book->save();
+            } else {
+                $book = new Book();
+                $book->Name = $name;
+                $book->Price = $price;
+                $book->Id_Author = $authorID;
+                $book->save();
+            }
+        }
+
+        self::redirect('/');
     }
 }
